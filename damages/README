@@ -1,0 +1,30 @@
+# damages
+
+The clj-record example from Clojure in Action, chapter 9
+
+## Usage
+
+make a mysql database using sql/damages.sql
+
+  lein deps
+  lein swank
+
+from emacs 
+
+  M-x slime connect
+
+then load 
+
+  src/damages/core.clj 
+
+and compile it.
+
+The sexps in the comment in core.clj can now be executed one by one, demonstrating chapter 9 in "Clojure in Action" by Amit Rathore
+
+To me, it was unclear where the different pieces of code from the book should be defined to work together. I hope this barebones example will clear things up for other readers of the book.
+
+## License
+
+Copyright (C) 2012 FIXME
+
+Distributed under the Eclipse Public License, the same as Clojure.

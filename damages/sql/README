@@ -1,0 +1,6 @@
+# the database
+
+via the mysql admin page, create a database called damages_dev using damages.sql
+
+http://localhost/phpmyadmin
+
