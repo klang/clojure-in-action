@@ -1,5 +1,5 @@
-(defproject damages "1.0.0-SNAPSHOT"
-  :description "The clj-record example from Clojure in Action, chapter 9"
+(defproject redis "1.0.0-SNAPSHOT"
+  :description "The redis example from Clojure in Action, chapter 9"
   :dependencies [[org.clojure/clojure "1.3.0"]
 		 [org.clojars.tavisrudd/redis-clojure "1.3.1"]
 		 [org.clojure.contrib/json "1.3.0-alpha4"]
