@@ -16,8 +16,6 @@
   (GET "/" [] (index))
   (ANY "/user"
        {:as request} (users/controller request))
-  (ANY "/charges/find"
-       {:as request} (charges/controller request))
   (ANY "/charges"
        {:as request} (charges/controller request))
 
