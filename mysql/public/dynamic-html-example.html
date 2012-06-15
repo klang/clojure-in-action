@@ -1,0 +1,54 @@
+<html>
+<head>
+<style>
+   #newlink {width:600px}
+</style>
+<script type="text/javascript" src="dynamic-add-fields.js"></script> 
+</head>
+<body>
+<form method="post" action="">
+
+<div id="newlink">
+<div>
+<table border=0>
+	<tr>
+		<td> Link URL: </td>
+		<td> <input type="text" name="linkurl[]" value="http://www.satya-weblog.com"> </td>
+	</tr>
+	<tr>
+		<td> Link Description: </td>
+		<td>  <textarea name="linkdesc[]" cols="50" rows="5" ></textarea> </td>
+	</tr>
+</table>
+</div>
+
+</div>
+	<p>
+		<br>
+		<input type="submit" name="submit1">
+		<input type="reset" name="reset1">
+	</p>
+
+<p id="addnew">
+	<a href="javascript:new_link()">Add New </a>
+</p>
+
+</form>
+
+<!-- Template -->
+<div id="newlinktpl" style="display:none">
+<div>
+<table border=0>
+	<tr>
+		<td> Link URL: </td>
+		<td> <input type="text" name="linkurl[]" value=""> </td>
+	</tr>
+	<tr>
+		<td> Link Description: </td>
+		<td> <textarea name="linkdesc[]" cols="50" rows="5" ></textarea> </td>
+	</tr>
+</table>
+</div>
+</div>
+</body>
+</html>
