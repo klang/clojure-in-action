@@ -1,0 +1,29 @@
+# mysql & clj-record & compojure & json
+
+Providing a working example based on chapter 9.1 in Clojure in Action by Amit Rathore.
+
+A compojure based front end has been added to this example to demonstrate basic model/view/controller functionality
+
+## Usage
+
+First, navigate to src/chapter09 and execute
+
+    sudo mysql < damages.sql
+
+to create the database schema used in the example.
+
+Use your favorite way to start up clojure.
+
+    src/chapter09/usage.clj 
+
+to follow the example in chapter 9.1 or
+
+    src/chapter09/web.clj 
+
+to start up a web-server to offer a web-based gui to interact with the database
+
+## License
+
+Copyright (C) 2012 Amit Rathore
+
+Distributed under the Eclipse Public License, the same as Clojure.
