@@ -103,6 +103,11 @@
   (format "%.2f" (float 0.0))
   )
 
+(defn- add-charge []
+  [:tr [:td
+	[:button {:type "submit" :name "event" :value "create"} "add"]]]
+  )
+
 (defn- present-charges [data]
   (html5
    [:head
@@ -115,7 +120,8 @@
     [:table {:width "100%"}
      (charge-header)
      (map charge-line data)
-     (total-line data)]]))
+     (total-line data)]
+    (add-charge)]))
 
 (comment
   (map
@@ -127,7 +133,7 @@
   (apply + 0.0
 	 (map
 	  #(float (+ (:amount_dollars %) (/ (:amount_cents %) 100)))
-	  (-> 14
+	  (-> 1
 	      (user/get-record)
 	      (user/find-charges))))
   
@@ -140,9 +146,8 @@
 	 (user/get-record)
 	 (user/find-charges)
 	 (present-charges)))
-
-  
   )
+
 
 ;;-----------------------------------------------------------------------------
 ;; handler/controller .. it seems that we have more names for the same thing

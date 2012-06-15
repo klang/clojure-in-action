@@ -9,6 +9,7 @@
 	    [compojure.response :as   response]
 	    [chapter09.view     [charges :as charges]]
 	    [chapter09.view     [users   :as users]]
+	    [chapter09.view     [scratch :as scratch]]
 	    )
   )
 
@@ -19,6 +20,9 @@
   (ANY "/charges"
        {:as request} (charges/controller request))
 
+  (ANY "/dynamic-html-example"
+       {:as request} (scratch/dynamic-html-example request))
+    
   ;; REST
   (ANY "/json/user"
        {:as request} (users/json request))

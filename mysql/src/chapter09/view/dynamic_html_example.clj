@@ -1,12 +1,11 @@
-(ns chapter09.view.index
+(ns chapter09.view.dynamic-html-example
   (:use	[hiccup core form def util]
 	[hiccup.page :only [html5 include-css]]))
 
-(defn index []
+(defn dynamic-html-example [request]
   (html5
    [:head
-    [:title "I'm on a Web"]
-    (include-css "/stylesheets/screen.css")]
+    (include-css "/stylesheets/dynamic-add.css")]
    [:body
     [:div {:id "header"}
      [:h1 "Basic Compojure Application with Styles"
@@ -16,6 +15,4 @@
      [:div {:id "linklist"}
       [:li [:a {:href "/user"} "user"]]
       [:li [:a {:href "/charges"} "charges"]]      
-      [:li [:a {:href "/dynamic-html-example.html"} "dynamic add html"]]      
-      [:li [:a {:href "/dynamic-html-example"} "dynamic add"]]      
       ]]]))
