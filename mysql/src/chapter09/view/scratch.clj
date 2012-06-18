@@ -1,6 +1,7 @@
 (ns chapter09.view.scratch
   (:use	[hiccup core form def util]
-	[hiccup.page :only [html5 include-css include-js]]))
+	[hiccup.page :only [html5 include-css include-js]]
+	))
 
 ;; the straight up translation of the html example
 ;; with the repetition of the template that html demands.
@@ -71,3 +72,4 @@
     ;; template for new information block
     [:div {:id "newlinktpl" :style "display:none"}
      (data-group)]]))
+

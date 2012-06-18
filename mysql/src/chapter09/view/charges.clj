@@ -1,8 +1,9 @@
 (ns chapter09.view.charges
   (:use	[hiccup core form def util]
-	[hiccup.page :only [html5 include-css]]
+	[hiccup.page :only [html5 include-css include-js]]
 	[chapter09.helpers [defined-params]]
 	[clojure.data.json :only [json-str]]
+	[clojure.string :only (split triml trimr)]
 	)
   (:require (chapter09.model [user   :as user])
 	    (chapter09.model [charge :as charge])))
@@ -103,16 +104,50 @@
   (format "%.2f" (float 0.0))
   )
 
-(defn- add-charge []
-  [:tr [:td
-	[:button {:type "submit" :name "event" :value "create"} "add"]]]
-  )
+;; dynamic html
+(defn- data-group
+  ([] (data-group {}))
+  ([params]
+     [:div
+      [:table {:border 0}
+       [:tr [:td "date"]     [:td [:input {:type "text" :name "date[]"}]]]
+       [:tr [:td "vendor"]   [:td [:input {:type "text" :name "vendor_name[]"}]]]
+       [:tr [:td "category"] [:td [:input {:type "text" :name "category[]"}]]]
+       [:tr [:td "amount"]   [:td [:input {:type "text" :name "amount[]"}]]]
+       ]]  
+       ))
+
+(defn- data-group
+  ([] (data-group {}))
+  ([params]
+     [:div
+      [:table
+       [:tr
+	[:td [:input {:type "text" :placeholder "date" :name "date[]"}]]
+	[:td [:input {:type "text" :placeholder "vendor" :name "vendor_name[]"}]]
+	[:td [:input {:type "text" :placeholder "category" :name "category[]"}]]
+	[:td [:input {:type "text" :placeholder "amount" :name "amount[]"}]]]]]))
+
+(defn dynamic-add-charge [data]
+  [:div
+   [:form {:method "POST" :action "/collect" }
+    [:div {:id "newlink"} (data-group)]
+    [:p
+     [:button {:type "submit" :name "event" :value "create"} "add"]
+     [:button {:type "reset" :name "reset"} "reset"]]
+    [:p {:id "addnew"}
+     [:a {:href "javascript:new_link()"} "Add New"]]]
+   [:div {:id "newlinktpl" :style "display:none"} (data-group)]])
+
+;; ----------------------------------------------------------------------------
 
 (defn- present-charges [data]
   (html5
    [:head
     [:title "users"]
-    (include-css "/stylesheets/screen.css")]
+    (include-css "/stylesheets/screen.css")
+    (include-css "/stylesheets/dynamic-add.css")
+    (include-js "/javascript/dynamic-add-fields.js")]
    [:body
     [:div {:id "header"}
      [:h1 "charges"
@@ -120,8 +155,11 @@
     [:table {:width "100%"}
      (charge-header)
      (map charge-line data)
-     (total-line data)]
-    (add-charge)]))
+     (total-line data)
+     ]
+    [:hr]
+    (dynamic-add-charge data)
+    ]))
 
 (comment
   (map
@@ -170,6 +208,10 @@
 	    (= event "delete") (charge/destroy-record (select-keys params [:id])))
       (catch Exception _ {}))))
 
+(defn split-amount [params]
+  (merge (dissoc params :amount)
+	 (zipmap [:amount_dollars :amount_cents]
+		 (split (:amount params) #"[,.]" 2))))
 
 (defn controller [request]
   (let [event  ((request :params) :event)
@@ -182,7 +224,15 @@
       (= event "find"))   (-> (select-keys params [:login :id])
 			      (user/find-records)
 			      (present-users))
-     
+      #_(comment
+	  (= event "create")
+	  (select-keys params [:date :amount :vendor_name :category])
+	  ;; here, parameters are still inside their respective vectors
+	  ;split-amount
+	  
+	  )
+      
+      
      (and
       (:id params)
       (= event "select")) (-> (:id params)
@@ -195,6 +245,8 @@
 
 (defn json [request]
   (json-str (handle-event request)))
+
+
 
 (comment
   (apply
@@ -211,3 +263,21 @@
      (user/get-record)
      (user/find-charges))
  )
+
+(comment
+  (-> {:amount "23.23", :vendor "netto"}
+      split-amount)
+  (->
+   {:* "/collect", :event "create", :amount ["123.45" "37.23" "13.34"], :category ["brød" "øl" "mælk"], :vendor_name ["netto" "netto" "netto"], :date ["2010-01-16" "2010-01-17" "2010-01-18"]}
+   split-amount
+
+   )  
+
+  
+  {:user_id        1
+   :amount_dollars 10
+   :amount_cents   0
+   :vendor_name    "amazon"
+   :date           "2010-01-01"}
+
+  )
