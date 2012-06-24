@@ -47,3 +47,14 @@
     (println (next-message-from "rabbitmq-test")))
   )
 
+;;-- message-seq
+
+(defn- lazy-message-seq [channel consumer]
+  (lazy-seq
+   (let [message (delivery-from channel consumer)]
+     (cons message (lazy-message-seq channel consumer)))))
+
+(defn message-seq [queue-name]
+  (let [channel (.createChannel *rabbit-connection*)
+	consumer (consumer-for channel queue-name)]
+    (lazy-message-seq channel consumer)))
